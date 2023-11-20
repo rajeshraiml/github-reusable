@@ -10,6 +10,13 @@ on:
         token:
           description: Token to access data
           required: true   
+      outputs:
+        firstword:
+          description: "The first output string"
+          value: ${{ jobs.input_output.outputs.output1 }}
+        secondword:
+          description: "The second output string"
+          value: ${{ jobs.input_output.outputs.output2 }}
 jobs:
   reuse:
     runs-on: ubuntu-latest
@@ -18,4 +25,16 @@ jobs:
         run: "echo Config path: ${{inputs.config-path}}"
       - name: Display token
         run: "echo TOken : ${{secrets.token}}"
+  input_output:
+    needs: reuse
+    runs-on: ubuntu-latest
+    outputs:
+        output1: ${{ steps.step1.outputs.firstword }}
+        output2: ${{ steps.step2.outputs.secondword }}
+    steps:
+      - id: step1
+        run: echo "firstword=hello" >> $GITHUB_OUTPUT
+      - id: step2
+        run: echo "secondword=world" >> $GITHUB_OUTPUT
+
 
