@@ -1,0 +1,21 @@
+name: Reusable workflow example
+on:
+    workflow_call:
+      inputs:
+        config-path:
+          description: configuration path
+          required: true
+          type: string
+      secrets:
+        token:
+          description: Token to access data
+          required: true   
+jobs:
+  reuse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display config path
+        run: "echo Config path: ${{inputs.config-path}}"
+      - name: Display token
+        run: "echo TOken : ${{secrets.token}}"
+
